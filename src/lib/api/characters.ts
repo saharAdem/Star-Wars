@@ -14,3 +14,19 @@ export const getCharacters = async (): Promise<Characters> => {
     throw error;
   }
 };
+
+export const getCharacter = async (id: string): Promise<Character> => {
+  try {
+    const response = await fetch(`https://swapi.dev/api/people/${id}`);
+    const character: Character = await response.json();
+
+    if (!character) {
+      throw new Error("No results found");
+    }
+
+    return character;
+  } catch (error) {
+    console.error("Error fetching characters", error);
+    throw error;
+  }
+};
