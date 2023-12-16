@@ -1,7 +1,11 @@
-import SearchInput from './components/ui/SearchInput'
+import SearchInput from './components/ui/searchInput'
 import Button from './components/ui/button'
+import CharactersList from './components/characters/charactersList'
+import { getCharacters } from '@/lib/api/characters'
 
-export default function Home() {
+export default async function Home() {
+  const characters = await getCharacters()
+
   return (
     <div className='container m-auto mt-9 w-5/6'>
       <section>
@@ -10,6 +14,9 @@ export default function Home() {
           <SearchInput />
           <Button>Create Squad</Button>
         </div>
+      </section>
+      <section>
+        <CharactersList characters={characters}/>
       </section>
     </div>
   )
