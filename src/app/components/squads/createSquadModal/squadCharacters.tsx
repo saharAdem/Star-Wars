@@ -34,7 +34,6 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
 
   const handleCreateSquad = () => {
     dispatch(createSquad(squadData))
-    closeSquadModal()
     router.push('/squads')
   }
 
