@@ -1,19 +1,15 @@
 "use client"
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const [selectedNavItem, setSelectedNavItem] = useState('Characters');
+  const pathname = usePathname()
 
   const navItems = [
     { id: 1, label: 'Characters', path: '/' },
     { id: 2, label: 'Squads', path: '/squads' },
   ];
-
-  const handlenavItemSelect = (navLabel: string) => {
-    setSelectedNavItem(navLabel);
-  };
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -26,8 +22,7 @@ const Navbar = () => {
                 <Link
                   key={id}
                   href={path}
-                  onClick={() => handlenavItemSelect(label)}
-                  className={`text-white p-2 m-2 font-bold text-lg ${selectedNavItem === item.label ? 'bg-gray-600' : ''
+                  className={`text-white p-2 m-2 font-bold text-lg ${pathname === item.path ? 'bg-gray-600' : ''
                     }`}
                 >
                   {label}
