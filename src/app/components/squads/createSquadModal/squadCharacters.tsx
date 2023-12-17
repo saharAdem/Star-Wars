@@ -67,7 +67,7 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
       <div className="flex justify-end">
         <Button 
           onClick={handleCreateSquad}
-          disabled={squadData.characters.length < squadData.teamNumber}
+          isDisabled={squadData.characters.length < squadData.teamNumber}
         >Create</Button>
       </div>
     </div>
