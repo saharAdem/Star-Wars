@@ -8,9 +8,9 @@ export default async function Home() {
   const [characters, speciesPeople] = await Promise.all([getCharacters(), getSpeciesPeople()]);
 
   return (
-    <div className='container flex flex-col items-center max-w-none bg-space-image'>
+    <div className='container flex flex-col items-center max-w-none'>
       <section className='w-3/4 flex flex-col justify-between'>
-        <h1 className='text-center text-5xl font-bold text-white pt-24'>Star Wars</h1>
+        <h1 className='text-center text-5xl font-bold text-white'>Star Wars</h1>
         <div className='flex flex-row justify-between mt-8 mb-10'>
           <div className='w-1/3'>
             <SearchInput />

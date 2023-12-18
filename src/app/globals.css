@@ -5,3 +5,11 @@
 body {
   background-image: url('/images/space.avif');
 }
+
+.no-scrollbar::-webkit-scrollbar{
+  display: none
+}
+
+.no-scrollbar{
+  scrollbar-width: none;
+}

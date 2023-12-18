@@ -17,7 +17,7 @@ const CharacterPage = async ({ params }: { params: { characterId: string } }) =>
 
   return (
     <div>
-      <h5 className='text-center text-5xl font-bold m-5'> {name}
+      <h5 className='text-center text-5xl font-bold mb-5'> {name}
       </h5>
       <div className="block w-4/5 m-auto rounded-lg p-6 ">
         <Card title=''>

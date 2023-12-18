@@ -38,37 +38,38 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
   }
 
   return (
-    <div>
+    <div className="flex flex-col mb-10">
       <div>
         {
           speciesPeople && Object.keys(speciesPeople)?.map((specieName, index) => {
-            return <button key={index} onClick={() => changeSpiecieHandler(specieName)} className={`inline-block mx-2 bg-gray-300 text-gray-500 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2`}>{specieName}</button>
+            return <button key={index} onClick={() => changeSpiecieHandler(specieName)} className={`inline-block mx-2 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 ${specieName === selectedSpeice ? 'bg-blue-500' : 'bg-gray-500'} text-white`}>{specieName}</button>
           }
 
           )
         }
       </div>
-      <div className="flex flex-wrap">
-        {speciesPeople[selectedSpeice].map((character, index) => {
+      <div className="flex flex-wrap my-1 justify-center h-full">
+        {speciesPeople[selectedSpeice].map((character) => {
           const userSelectedCharacters = squadData.characters
           return (
+            <div key={character.id}>
             <CharacterCard
               key={character.id}
               character={character}
               isSelected={userSelectedCharacters.includes(character)}
               onSelect={userSelectedCharacters.length < squadData.teamNumber ? handleSelectCharacter : () => { }}
               isDisabled={userSelectedCharacters.length > squadData.teamNumber - 1 || (squadSpecies.includes(selectedSpeice))}
+              className="w-48 h-80"
             />
+            </div>
           )
         }
         )}
       </div>
-      <div className="flex justify-end">
-        <Button 
-          onClick={handleCreateSquad}
-          isDisabled={squadData.characters.length < squadData.teamNumber}
-        >Create</Button>
-      </div>
+      <Button
+        onClick={handleCreateSquad}
+        isDisabled={squadData.characters.length < squadData.teamNumber}
+      >Create</Button>
     </div>
   )
 }

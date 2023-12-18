@@ -11,10 +11,9 @@ const SquadName: React.FC<ISquadName> = ({squadData, handleNextStep, updateSquad
   return (
     <div>
       <div>
-        <p>What is your Squad Name?</p>
-        <Input type="text" value={squadData.name} onChange={(e) => updateSquadData('name', e.target.value)} />
+        <Input label="What is your Squad Name?" type="text" value={squadData.name} onChange={(e) => updateSquadData('name', e.target.value)} />
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end mt-9">
         <Button onClick={handleNextStep} isDisabled={!squadData.name}>Next</Button>
       </div>
     </div>
