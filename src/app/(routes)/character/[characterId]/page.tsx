@@ -2,6 +2,7 @@ import { getCharacter } from "@/lib/api/characters"
 import Card from "@/app/components/ui/card"
 import CharacterDescriptionItem from "@/app/components/characters/characterDescriptionItem"
 import { getFilmTitle } from "@/lib/api/films"
+import { v4 as uuidv4 } from 'uuid';
 
 const CharacterPage = async ({ params }: { params: { characterId: string } }) => {
   const character = await getCharacter(params.characterId)
@@ -25,8 +26,8 @@ const CharacterPage = async ({ params }: { params: { characterId: string } }) =>
           <CharacterDescriptionItem propertey="Height" value={height} />
           <CharacterDescriptionItem propertey="Films">
             {
-              filmsTitles.map((title, index) => (
-                <span key={index} className="inline-block mx-2 bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{title}</span>
+              filmsTitles.map((title) => (
+                <span key={uuidv4()} className="inline-block mx-2 bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{title}</span>
               ))
             }
           </CharacterDescriptionItem>
