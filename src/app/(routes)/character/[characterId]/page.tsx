@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CharacterPage = async ({ params }: { params: { characterId: string } }) => {
   const character = await getCharacter(params.characterId)
-  const { name, height, birthYear, mass } = character
+  const { name, height, birthYear, mass,image } = character
 
   const getUserFilms = async () => {
     const userFilms = await Promise.all(character.films.map(url => getFilmTitle(url)));
@@ -17,10 +17,10 @@ const CharacterPage = async ({ params }: { params: { characterId: string } }) =>
 
   return (
     <div>
-      <h5 className='text-center text-5xl font-bold mb-5'> {name}
+      <h5 className='text-center text-white text-5xl font-bold mb-5'> {name}
       </h5>
       <div className="block w-4/5 m-auto rounded-lg p-6 ">
-        <Card title=''>
+        <Card title='' className="w-2/6" imageData={{ url: image, width: 400, height: 350 }}>
           <CharacterDescriptionItem propertey="Mass" value={mass}/>
           <CharacterDescriptionItem propertey="Birthdate" value={birthYear} />
           <CharacterDescriptionItem propertey="Height" value={height} />

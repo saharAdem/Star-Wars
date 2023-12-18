@@ -22,7 +22,7 @@ export default function RootLayout({
       <Providers>
         <body className={inter.className}>
           <Navbar />
-          <div className='relative top-28 overflow-y-auto no-scrollbar'>
+          <div className='relative top-24 overflow-y-auto no-scrollbar'>
             {children}
           </div>
           

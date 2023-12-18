@@ -20,8 +20,8 @@ const CustomModal: React.FC<IModalProps> = ({ isOpen, closeModal, children, titl
       overlayClassName="fixed overflow-y-hidden inset-0 bg-space-image opacity-100"
     >
       <div className={clsx(
-        "bg-white p-8 rounded max-w-90vw",
-        className
+        "bg-white p-8 rounded max-w-90vw flex flex-col",
+      className
       )}>
         <h5 className="leading-normal text-center text-3xl font-bold mb-3">
           {title}
