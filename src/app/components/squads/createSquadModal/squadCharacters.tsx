@@ -53,7 +53,7 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
           const userSelectedCharacters = squadData.characters
           return (
             <CharacterCard
-              key={character.name}
+              key={character.id}
               character={character}
               isSelected={userSelectedCharacters.includes(character)}
               onSelect={userSelectedCharacters.length < squadData.teamNumber ? handleSelectCharacter : () => { }}

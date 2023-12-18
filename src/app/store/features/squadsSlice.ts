@@ -1,6 +1,7 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState: Squads = []
 
@@ -9,7 +10,11 @@ export const squadsSlice = createSlice({
   initialState,
   reducers: {
     createSquad: (state, action) => {
-      return [...state, action.payload];
+      const newSquad = {
+        id: uuidv4(),
+        ...action.payload,
+      };
+      return [...state, newSquad];
     },
   }
 })

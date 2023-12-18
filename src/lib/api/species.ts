@@ -1,23 +1,24 @@
-const speciesUrl = 'https://swapi.dev/api/species'
+const speciesUrl = 'https://fe-case-study.vercel.app/api/data/species'
 
 export const getSpecies = async (): Promise<Species> => {
   try {
     const response = await fetch(speciesUrl);
-    const data = await response.json();
-    const Species: Species = data.results
-
-    if (!Species) {
+    const species: Species = await response.json();
+    
+    if (!species) {
       throw new Error("No results found");
     }
 
-    return Species;
+    return species;
   } catch (error) {
     console.error("Error fetching characters", error);
     throw error;
   }
 };
 
-export const getSpeciesPeople = async (species: Species) => {
+export const getSpeciesPeople = async () => {
+  const species = await getSpecies()
+
   const SpeciesWithCharacter: SpeciesCharacters = {};
 
   const fetchSpeciesData = async (specie: Specie) => {
@@ -30,7 +31,6 @@ export const getSpeciesPeople = async (species: Species) => {
     );
     SpeciesWithCharacter[specie.name] = characters;
   };
-
   for (const specie of species) {
     await fetchSpeciesData(specie);
   }

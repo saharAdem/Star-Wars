@@ -8,20 +8,19 @@ import CharacterCard from "@/app/components/characters/characterCard";
 
 const Squads = () => {
   const squads = useSelector((state: RootState) => state.squads);
-
   return (
     <div>
       <h1 className='text-center text-5xl font-bold m-5'>{squads.length > 0 ? 'Squads' : 'No Squads'}</h1>
         {squads.length > 0 && <div className="flex flex-wrap">
           {
-            squads.map((squad, index) => {
-              const { name, characters } = squad
+            squads.map((squad) => {
+              const { name, characters, id } = squad
               return (
-                <Card key={index} title={name}>
+                <Card key={id} title={name}>
                   <h4 className='text-2xl font-bold m-5'>Characters</h4>
                   {
-                    characters.map((character, index) => {
-                      return (<div key={index}>
+                    characters.map((character) => {
+                      return (<div key={character.id}>
                         <CharacterCard character={character} />
                       </div>)
                     })

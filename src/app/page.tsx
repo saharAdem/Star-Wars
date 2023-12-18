@@ -2,13 +2,10 @@ import SearchInput from './components/ui/SearchInput'
 import CharactersList from './components/characters/charactersList'
 import { getCharacters } from '@/lib/api/characters'
 import CreateSquadModal from './components/squads/createSquadModal'
-import { getSpecies, getSpeciesPeople } from '@/lib/api/species'
+import { getSpeciesPeople } from '@/lib/api/species'
 
 export default async function Home() {
-  const characters = await getCharacters()
-  const species = await getSpecies()
-
-  const speciesPeople: SpeciesCharacters = await getSpeciesPeople(species)
+  const [characters, speciesPeople] = await Promise.all([getCharacters(), getSpeciesPeople()]);
 
   return (
     <div className='container m-auto mt-9 w-5/6'>
