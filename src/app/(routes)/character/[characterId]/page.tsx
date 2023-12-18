@@ -5,7 +5,7 @@ import { getFilmTitle } from "@/lib/api/films"
 
 const CharacterPage = async ({ params }: { params: { characterId: string } }) => {
   const character = await getCharacter(params.characterId)
-  const { name, height, birth_year, mass } = character
+  const { name, height, birthYear, mass } = character
 
   const getUserFilms = async () => {
     const userFilms = await Promise.all(character.films.map(url => getFilmTitle(url)));
@@ -19,9 +19,9 @@ const CharacterPage = async ({ params }: { params: { characterId: string } }) =>
       <h5 className='text-center text-5xl font-bold m-5'> {name}
       </h5>
       <div className="block w-4/5 m-auto rounded-lg p-6 ">
-        <Card>
+        <Card title=''>
           <CharacterDescriptionItem propertey="Mass" value={mass}/>
-          <CharacterDescriptionItem propertey="Birthdate" value={birth_year} />
+          <CharacterDescriptionItem propertey="Birthdate" value={birthYear} />
           <CharacterDescriptionItem propertey="Height" value={height} />
           <CharacterDescriptionItem propertey="Films">
             {

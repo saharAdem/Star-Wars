@@ -1,8 +1,7 @@
 export const getCharacters = async (): Promise<Characters> => {
   try {
-    const response = await fetch("https://swapi.dev/api/people");
-    const data = await response.json();
-    const characters: Character[] = data.results
+    const response = await fetch("https://fe-case-study.vercel.app/api/data/people");
+    const characters = await response.json();
 
     if (!characters) {
       throw new Error("No results found");

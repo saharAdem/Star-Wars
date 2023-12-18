@@ -1,19 +1,20 @@
 type Specie = {
-  average_height: string;
-  average_lifespan: string;
-  classification: string;
-  created: Date;
-  designation: string;
-  edited: Date;
-  eye_colors: string;
-  hair_colors: string;
-  homeworld: string
-  language: string;
-  name: string;
-  people: string[]
-  films: string[]
-  skin_colors: string;
-  url: string;
+  id: string, 
+  name: string,
+  classification: string, 
+  designation: string, 
+  averageHeight: number,
+  averageLifespan: string, 
+  language: string 
+  eyeColors: string[],
+  hairColors: string[],
+  skinColors: string[],
+  createdAt: string, 
+  updatedAt: string,
+  planetId: number 
+  people: string[],
+  films: string[], 
+  homeworld: {}
 };
 
 type Species = Array<Specie>

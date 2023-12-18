@@ -1,6 +1,6 @@
 interface ICharacterDescriptionItem {
   propertey: string,
-  value?: string,
+  value?: string | number ,
   children?: React.ReactNode 
 
 }
