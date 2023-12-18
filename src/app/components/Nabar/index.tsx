@@ -12,7 +12,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-black fixed w-full z-10 p-4">
       <div className="container mx-auto flex justify-start items-center text-white font-bold text-lg">
         <div>
           {

@@ -14,9 +14,9 @@ export default function CharactersList({ characters }: ICharactersListProps) {
           <Link 
             href={`/character/${id}`}
             key={id}
-            className="m-1"
+            className="m-3"
           >
-            <Card title={name} imageData={{ url: image, width: 300, height: 400}}> 
+            <Card title={name} imageData={{ url: image, width: 250, height: 350}}> 
             </Card>
           </Link>
         )
