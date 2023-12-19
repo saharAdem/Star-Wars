@@ -21,14 +21,16 @@ const CharacterCard = ({ character, isSelected, onSelect, isDisabled, className 
   return (
     <div
       className={clsx(
-        `m-4 w-40 min-w-fit h-20 ${isDisabled ? 'opacity-50 hover:cursor-not-allowed ' : 'hover:cursor-pointer'} ${isSelected ? 'bg-blue-300' : ''}`, 
+        `m-4 w-40 min-w-fit ${isDisabled ? 'opacity-50 hover:cursor-not-allowed ' : 'hover:cursor-pointer'} ${isSelected ? 'bg-blue-300' : ''}`, 
         className
   )}
       onClick={handleSelect}
     >
       <Card title={name} imageData={{ url: image, width: 250, height: 350 }}>
-        <CharacterDescriptionItem propertey="Height" value={height} />
-        <CharacterDescriptionItem propertey="mass" value={mass} />
+        <div className="px-6 pb-4">
+          <CharacterDescriptionItem propertey="Height" value={height} />
+          <CharacterDescriptionItem propertey="mass" value={mass} />
+        </div>
       </Card>
       
     </div>
