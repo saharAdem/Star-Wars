@@ -10,7 +10,7 @@ const Squads = () => {
   const squads = useSelector((state: RootState) => state.squads);
   return (
     <div>
-      <h1 className='text-center text-5xl font-bold m-5'>{squads.length > 0 ? 'Squads' : 'No Squads'}</h1>
+      <h1 className='text-center text-5xl font-bold mb-5 text-white'>{squads.length > 0 ? 'Squads' : 'No Squads'}</h1>
         {squads.length > 0 && <div className="flex flex-wrap">
           {
             squads.map((squad) => {

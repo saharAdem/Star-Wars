@@ -13,7 +13,7 @@ const TeamNumbers: React.FC<ITeamNumbers> = ({ squadData, updateSquadData, handl
       <div>
         <p>How many heroes do you want?</p>
       </div>
-      <div className="flex items-center justify-between m-4">
+      <div className="flex items-center justify-center my-4">
         {
           allowableteamNumbers.map((number) => {
             const selectedTeamNumber = squadData.teamNumber
@@ -21,7 +21,7 @@ const TeamNumbers: React.FC<ITeamNumbers> = ({ squadData, updateSquadData, handl
               key={number}
               onClick={() => updateSquadData('teamNumber', number)}
               isSelected={selectedTeamNumber === number}
-              className={`w-8 h-8 m-2 flex items-center justify-center font-bold rounded-full cursor-pointer`}
+              className={`w-8 h-8 mx-4 flex items-center justify-center font-bold rounded-full cursor-pointer`}
             >
               {number}
             </Button>
@@ -29,7 +29,7 @@ const TeamNumbers: React.FC<ITeamNumbers> = ({ squadData, updateSquadData, handl
           })
         }
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end mt-9">
         <Button onClick={handleNextStep} isDisabled={!squadData.teamNumber}>Next</Button>
       </div>
     </div>

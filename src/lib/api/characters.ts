@@ -16,7 +16,7 @@ export const getCharacters = async (): Promise<Characters> => {
 
 export const getCharacter = async (id: string): Promise<Character> => {
   try {
-    const response = await fetch(`https://swapi.dev/api/people/${id}`);
+    const response = await fetch(`https://fe-case-study.vercel.app/api/data/people/${id}`);
     const character: Character = await response.json();
 
     if (!character) {

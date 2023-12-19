@@ -11,7 +11,7 @@ const Input = (props: IInputProps) => {
   const { label, type, placeholder, value, onChange, error } = props
   return (
     <div className="mb-4">
-      {label && <label className="block text-sm font-semibold text-gray-600">{label}</label>}
+      {label && <label>{label}</label>}
       <input
         className={`w-full p-2 mt-1 border-b-2 ${error ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
         type={type}

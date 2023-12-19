@@ -14,7 +14,7 @@ interface ICreateSquadModalProps {
 const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople }) => {
   const [isOpenSquadModal, setIsOpenSquadModal] = useState(false);
   const [currentStep, setCurrentStep] = useState(1)
-  const [squadData, setSquadData] = useState<Squad>({ teamNumber: 0, characters: [], name: '' })
+  const [squadData, setSquadData] = useState<Squad>({ teamNumber: 0, characters: [], name: '', id: '' })
 
   const openSquadModal = () => {
     setIsOpenSquadModal(true);
@@ -22,6 +22,8 @@ const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople }) =
 
   const closeSquadModal = () => {
     setIsOpenSquadModal(false);
+    setCurrentStep(1)
+    setSquadData({ teamNumber: 0, characters: [], name: '', id: '' })
   };
 
   const handleNextStep = () => {
@@ -37,10 +39,11 @@ const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople }) =
       <Button onClick={openSquadModal}>Creat Squad</Button>
       {
         isOpenSquadModal &&
-        <CustomModal
+          <CustomModal
           isOpen={isOpenSquadModal}
           closeModal={closeSquadModal}
           title="Create Squad"
+          className="max-w-5xl flex"
         >
 
         {currentStep === 1 && <SquadName squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
