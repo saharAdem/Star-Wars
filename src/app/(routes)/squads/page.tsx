@@ -5,26 +5,29 @@ import { useSelector } from "react-redux"
 import type { RootState } from '@/app/store/store';
 import Card from "@/app/components/ui/card";
 import CharacterCard from "@/app/components/characters/characterCard";
+import { getDataFromSessionStorage } from "@/lib/helpers/sessionStorage/getFromSessionStorage";
 
 const Squads = () => {
-  const squads = useSelector((state: RootState) => state.squads);
+  // const squads = useSelector((state: RootState) => state.squads);
+  const squads: Squads = getDataFromSessionStorage('squads')
   return (
     <div>
-      <h1 className='text-center text-5xl font-bold mb-5 text-white'>{squads.length > 0 ? 'Squads' : 'No Squads'}</h1>
-        {squads.length > 0 && <div className="flex flex-wrap">
+      <h1 className='text-center text-5xl font-bold mb-5 text-white'>{squads?.length > 0 ? 'Squads' : 'No Squads'}</h1>
+        {squads?.length > 0 && <div className="flex flex-col flex-wrap">
           {
-            squads.map((squad) => {
+            squads?.map((squad) => {
               const { name, characters, id } = squad
               return (
-                <Card key={id} title={name}>
-                  <h4 className='text-2xl font-bold m-5'>Characters</h4>
-                  {
-                    characters.map((character) => {
-                      return (<div key={character.id}>
-                        <CharacterCard character={character} />
-                      </div>)
-                    })
-                  }
+                <Card key={id} title={name} className="my-4">
+                  <div className="flex flex-wrap justify-center">
+                    {
+                      characters.map((character) => {
+                        return (<div key={character.id}>
+                          <CharacterCard character={character} />
+                        </div>)
+                      })
+                    }
+                  </div>
                 </Card>
               )
             })
