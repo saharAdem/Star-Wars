@@ -1,7 +1,10 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from 'uuid';
 
+import { storeInSessionStorage } from '@/lib/helpers/sessionStorage/storeInSessionStorage';
+import { getDataFromSessionStorage } from "@/lib/helpers/sessionStorage/getFromSessionStorage";
 import { createSquad } from "@/app/store/features/squadsSlice";
 import CharacterCard from "../../characters/characterCard"
 import Button from "../../ui/button";
@@ -33,7 +36,9 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
   };
 
   const handleCreateSquad = () => {
-    dispatch(createSquad(squadData))
+    // dispatch(createSquad(squadData))
+    const squads: Squads = getDataFromSessionStorage('squads') || []
+    storeInSessionStorage('squads', [...squads, {...squadData, id: uuidv4()}]);
     router.push('/squads')
   }
 
