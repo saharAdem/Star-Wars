@@ -8,13 +8,19 @@ import TeamNumbers from "./teamNumbers";
 import SquadCharacters from "./squadCharacters";
 
 interface ICreateSquadModalProps {
-  speciesPeople: SpeciesCharacters
+  speciesPeople: SpeciesCharacters,
+  editedSquadData?: Squad
 }
 
-const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople }) => {
+const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople, editedSquadData }) => {
   const [isOpenSquadModal, setIsOpenSquadModal] = useState(false);
   const [currentStep, setCurrentStep] = useState(1)
-  const [squadData, setSquadData] = useState<Squad>({ teamNumber: 0, characters: [], name: '', id: '' })
+  const [squadData, setSquadData] = useState<Squad>({
+    teamNumber: editedSquadData?.teamNumber ?? 0,
+    characters: editedSquadData?.characters ?? [],
+    name: editedSquadData?.name ?? '',
+    id: editedSquadData?.id ?? '',
+  });
 
   const openSquadModal = () => {
     setIsOpenSquadModal(true);
@@ -36,19 +42,19 @@ const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople }) =
 
   return (
     <div>
-      <Button onClick={openSquadModal}>Creat Squad</Button>
+      <Button onClick={openSquadModal}>{editedSquadData ? 'Edit' : 'Creat'} Squad</Button>
       {
         isOpenSquadModal &&
-          <CustomModal
+        <CustomModal
           isOpen={isOpenSquadModal}
           closeModal={closeSquadModal}
-          title="Create Squad"
+          title={`${editedSquadData ? 'Edit' : 'Create'} Squad`}
           className="max-w-5xl flex"
         >
 
         {currentStep === 1 && <SquadName squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
         {currentStep === 2 && <TeamNumbers squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
-        {currentStep === 3 && <SquadCharacters speciesPeople={speciesPeople} squadData={squadData} updateSquadData={updateSquadData} closeSquadModal={closeSquadModal}/>}
+        {currentStep === 3 && <SquadCharacters speciesPeople={speciesPeople} squadData={squadData} updateSquadData={updateSquadData} closeSquadModal={closeSquadModal} editedSquadData={editedSquadData} />}
 
 
         </CustomModal>

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { storeInSessionStorage } from '@/lib/helpers/sessionStorage/storeInSessionStorage';
 import { getDataFromSessionStorage } from "@/lib/helpers/sessionStorage/getFromSessionStorage";
-import { createSquad } from "@/app/store/features/squadsSlice";
+import { createSquad, editSquad } from "@/app/store/features/squadsSlice";
 import CharacterCard from "../../characters/characterCard"
 import Button from "../../ui/button";
 
@@ -13,10 +13,11 @@ interface ISquadCharactersProps {
   speciesPeople: SpeciesCharacters,
   squadData: Squad,
   updateSquadData: (propertey: string, value: Characters) => void, 
-  closeSquadModal: () => void
+  closeSquadModal: () => void,
+  editedSquadData?: Squad
 }
 
-const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squadData, updateSquadData, closeSquadModal }) => {
+const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squadData, updateSquadData, closeSquadModal, editedSquadData }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -27,20 +28,37 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
     setSelectedSpeice(specietype)
   }
 
+  const isCharacterSelected = (characters: Characters, charId: number) => {
+    return characters.some(selectedCharacter => selectedCharacter.id === charId);
+  }
+
   const handleSelectCharacter = (character: Character) => {
     const userSelectedCharacters = squadData.characters
-    if (userSelectedCharacters.length < 6) {
-      setSquadSpecies([...squadSpecies, selectedSpeice])
-      updateSquadData('characters', [...userSelectedCharacters, character]);
-    }
-  };
+
+    const isUserSelected = isCharacterSelected(userSelectedCharacters, character.id)
+    if (isUserSelected) {      
+      const updatedCharacters = userSelectedCharacters?.filter(selectedCharacter => selectedCharacter.id !== character.id) 
+      const updatedSquadSpecies = squadSpecies.filter(specie => specie !== selectedSpeice)
+      setSquadSpecies(updatedSquadSpecies);
+      updateSquadData('characters', updatedCharacters);
+    } else {
+      if (userSelectedCharacters.length < 6) {
+        setSquadSpecies([...squadSpecies, selectedSpeice]);
+        updateSquadData('characters', [...userSelectedCharacters, character]);
+      }
+  }
+}
+
 
   const handleCreateSquad = () => {
-    // dispatch(createSquad(squadData))
-    const squads: Squads = getDataFromSessionStorage('squads') || []
-    storeInSessionStorage('squads', [...squads, {...squadData, id: uuidv4()}]);
+    editedSquadData? dispatch(editSquad(squadData)) : dispatch(createSquad(squadData))
+    closeSquadModal()
     router.push('/squads')
   }
+
+  const isContainSelectedCharaters = () =>{
+    return squadData.characters.some(squadCharacter => speciesPeople[selectedSpeice].some(character => character.id === squadCharacter.id));
+  } 
 
   return (
     <div className="flex flex-col mb-10">
@@ -53,17 +71,19 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
           )
         }
       </div>
-      <div className="flex flex-wrap my-1 justify-center h-full">
-        {speciesPeople[selectedSpeice].map((character) => {
-          const userSelectedCharacters = squadData.characters
+      <div className="flex flex-wrap my-1 justify-center">
+        {speciesPeople && speciesPeople[selectedSpeice]?.map((character) => {
+          const userSelectedCharacters:Characters = squadData.characters
+          const isSelectedCharacter = isCharacterSelected(userSelectedCharacters, character.id) 
+          const isContainSelectedItems = isContainSelectedCharaters()
           return (
             <div key={character.id}>
             <CharacterCard
               key={character.id}
               character={character}
-              isSelected={userSelectedCharacters.includes(character)}
-              onSelect={userSelectedCharacters.length < squadData.teamNumber ? handleSelectCharacter : () => { }}
-              isDisabled={userSelectedCharacters.length > squadData.teamNumber - 1 || (squadSpecies.includes(selectedSpeice))}
+              isSelected={isSelectedCharacter}
+              onSelect={(userSelectedCharacters.length <= squadData.teamNumber || (editedSquadData && squadData.characters.length > squadData.teamNumber)) ? handleSelectCharacter : () => { }}
+              isDisabled={((userSelectedCharacters.length > squadData.teamNumber - 1 || squadSpecies.includes(selectedSpeice)) && !isSelectedCharacter) || (editedSquadData && squadData.characters.length === squadData.teamNumber) || isContainSelectedItems}
               className="w-48 h-80"
             />
             </div>
@@ -73,8 +93,8 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
       </div>
       <Button
         onClick={handleCreateSquad}
-        isDisabled={squadData.characters.length < squadData.teamNumber}
-      >Create</Button>
+        isDisabled={!(squadData.characters.length === squadData.teamNumber)}
+      >{editedSquadData? 'Edit' : 'Create'}</Button>
     </div>
   )
 }
