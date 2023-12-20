@@ -1,9 +1,15 @@
+import { Metadata } from "next"
+import { notFound } from "next/navigation";
+
 import { getCharacter } from "@/lib/api/characters"
 import Card from "@/app/components/ui/card"
 import CharacterDescriptionItem from "@/app/components/characters/characterDescriptionItem"
 import { getFilmTitle } from "@/lib/api/films"
 import { v4 as uuidv4 } from 'uuid';
-import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: 'Character',
+};
 
 const CharacterPage = async ({ params }: { params: { characterId: string } }) => {
   const character = await getCharacter(params.characterId)

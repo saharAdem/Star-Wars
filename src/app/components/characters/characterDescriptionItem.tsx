@@ -8,8 +8,8 @@ interface ICharacterDescriptionItem {
 const CharacterDescriptionItem = ({ propertey, value, children }: ICharacterDescriptionItem) =>{
   return (
     <div>
-      <span className="font-semibold">{propertey}:</span>
-      <span className="ml-2">{value || children}</span>
+      <span className="font-semibold text-black">{propertey}:</span>
+      <span className="ml-2 text-black">{value || children}</span>
     </div>
   )
 }
