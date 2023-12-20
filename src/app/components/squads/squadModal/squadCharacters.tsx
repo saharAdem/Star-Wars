@@ -1,10 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useRouter } from "next/navigation";
-import { v4 as uuidv4 } from 'uuid';
 
-import { storeInSessionStorage } from '@/lib/helpers/sessionStorage/storeInSessionStorage';
-import { getDataFromSessionStorage } from "@/lib/helpers/sessionStorage/getFromSessionStorage";
 import { createSquad, editSquad } from "@/app/store/features/squadsSlice";
 import CharacterCard from "../../characters/characterCard"
 import Button from "../../ui/button";
