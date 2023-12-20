@@ -12,7 +12,7 @@ import Button from "../../ui/button";
 interface ISquadCharactersProps {
   speciesPeople: SpeciesCharacters,
   squadData: Squad,
-  updateSquadData: (propertey: string, value: Characters) => void, 
+  updateSquadData: (propertey: string, value: Characters) => void,
   closeSquadModal: () => void,
   editedSquadData?: Squad
 }
@@ -36,8 +36,8 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
     const userSelectedCharacters = squadData.characters
 
     const isUserSelected = isCharacterSelected(userSelectedCharacters, character.id)
-    if (isUserSelected) {      
-      const updatedCharacters = userSelectedCharacters?.filter(selectedCharacter => selectedCharacter.id !== character.id) 
+    if (isUserSelected) {
+      const updatedCharacters = userSelectedCharacters?.filter(selectedCharacter => selectedCharacter.id !== character.id)
       const updatedSquadSpecies = squadSpecies.filter(specie => specie !== selectedSpeice)
       setSquadSpecies(updatedSquadSpecies);
       updateSquadData('characters', updatedCharacters);
@@ -46,19 +46,19 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
         setSquadSpecies([...squadSpecies, selectedSpeice]);
         updateSquadData('characters', [...userSelectedCharacters, character]);
       }
+    }
   }
-}
 
 
   const handleCreateSquad = () => {
-    editedSquadData? dispatch(editSquad(squadData)) : dispatch(createSquad(squadData))
+    editedSquadData ? dispatch(editSquad(squadData)) : dispatch(createSquad(squadData))
     closeSquadModal()
     router.push('/squads')
   }
 
-  const isContainSelectedCharaters = () =>{
+  const isContainSelectedCharaters = () => {
     return squadData.characters.some(squadCharacter => speciesPeople[selectedSpeice].some(character => character.id === squadCharacter.id));
-  } 
+  }
 
   return (
     <div className="flex flex-col mb-10">
@@ -72,29 +72,30 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
         }
       </div>
       <div className="flex flex-wrap my-1 justify-center">
-        {speciesPeople && speciesPeople[selectedSpeice]?.map((character) => {
-          const userSelectedCharacters:Characters = squadData.characters
-          const isSelectedCharacter = isCharacterSelected(userSelectedCharacters, character.id) 
+        {speciesPeople[selectedSpeice].length ? speciesPeople[selectedSpeice]?.map((character) => {
+          const userSelectedCharacters: Characters = squadData.characters
+          const isSelectedCharacter = isCharacterSelected(userSelectedCharacters, character.id)
           const isContainSelectedItems = isContainSelectedCharaters()
           return (
             <div key={character.id}>
-            <CharacterCard
-              key={character.id}
-              character={character}
-              isSelected={isSelectedCharacter}
-              onSelect={(userSelectedCharacters.length <= squadData.teamNumber || (editedSquadData && squadData.characters.length > squadData.teamNumber)) ? handleSelectCharacter : () => { }}
-              isDisabled={((userSelectedCharacters.length > squadData.teamNumber - 1 || squadSpecies.includes(selectedSpeice)) && !isSelectedCharacter) || (editedSquadData && squadData.characters.length === squadData.teamNumber) || isContainSelectedItems}
-              className="w-48 h-80"
-            />
+              <CharacterCard
+                key={character.id}
+                character={character}
+                isSelected={isSelectedCharacter}
+                onSelect={(userSelectedCharacters.length <= squadData.teamNumber || (editedSquadData && squadData.characters.length > squadData.teamNumber)) ? handleSelectCharacter : () => { }}
+                isDisabled={((userSelectedCharacters.length > squadData.teamNumber - 1 || squadSpecies.includes(selectedSpeice)) && !isSelectedCharacter) || (editedSquadData && squadData.characters.length === squadData.teamNumber) || isContainSelectedItems}
+                className="w-48 h-80"
+              />
             </div>
           )
         }
-        )}
+        ) : <h1 className='text-center align-middle text-xl font-bold m-10'>No Characters</h1>
+        }
       </div>
       <Button
         onClick={handleCreateSquad}
         isDisabled={!(squadData.characters.length === squadData.teamNumber)}
-      >{editedSquadData? 'Edit' : 'Create'}</Button>
+      >{editedSquadData ? 'Edit' : 'Create'}</Button>
     </div>
   )
 }

@@ -9,7 +9,7 @@ import Card from "@/app/components/ui/card";
 import CharacterCard from "@/app/components/characters/characterCard";
 import { SkeletonCard } from "@/app/components/ui/skeletons";
 
-import CreateSquadModal from "@/app/components/squads/createSquadModal";
+import CreateSquadModal from "@/app/components/squads/squadModal";
 
 interface ISquadsList{
   speciesPeople: SpeciesCharacters
