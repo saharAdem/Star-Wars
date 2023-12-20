@@ -1,11 +1,21 @@
 import SearchInput from './components/ui/SearchInput'
 import CharactersList from './components/characters/charactersList'
-import { getCharacters } from '@/lib/api/characters'
 import CreateSquadModal from './components/squads/createSquadModal'
 import { getSpeciesPeople } from '@/lib/api/species'
+// import { Suspense } from 'react';
+// import { SkeletonCard } from "@/app/components/ui/skeletons";
 
-export default async function Home() {
-  const [characters, speciesPeople] = await Promise.all([getCharacters(), getSpeciesPeople()]);
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+  const speciesPeople = await getSpeciesPeople();
 
   return (
     <div className='container flex flex-col items-center max-w-none'>
@@ -19,7 +29,9 @@ export default async function Home() {
         </div>
       </section>
       <section>
-        <CharactersList characters={characters}/>
+        {/* <Suspense key={query + currentPage} fallback={<SkeletonCard number={6}/>}> */}
+          <CharactersList query={query} currentPage={currentPage}/>
+        {/* </Suspense> */}
       </section>
     </div>
   )
