@@ -3,13 +3,18 @@ import Card from "@/app/components/ui/card"
 import CharacterDescriptionItem from "@/app/components/characters/characterDescriptionItem"
 import { getFilmTitle } from "@/lib/api/films"
 import { v4 as uuidv4 } from 'uuid';
+import { notFound } from "next/navigation";
 
 const CharacterPage = async ({ params }: { params: { characterId: string } }) => {
   const character = await getCharacter(params.characterId)
+  if (!character.id) {
+    notFound()
+  }
+  
   const { name, height, birthYear, mass,image } = character
 
   const getUserFilms = async () => {
-    const userFilms = await Promise.all(character.films.map(url => getFilmTitle(url)));
+    const userFilms = await Promise.all(character?.films?.map(url => getFilmTitle(url)));
     return userFilms
   }
   const filmsTitles = await getUserFilms()
