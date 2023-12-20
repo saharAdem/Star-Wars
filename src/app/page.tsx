@@ -1,6 +1,6 @@
 import SearchInput from './components/ui/SearchInput'
 import CharactersList from './components/characters/charactersList'
-import CreateSquadModal from './components/squads/createSquadModal'
+import CreateSquadModal from './components/squads/squadModal'
 import { getSpeciesPeople } from '@/lib/api/species'
 // import { Suspense } from 'react';
 // import { SkeletonCard } from "@/app/components/ui/skeletons";

@@ -6,6 +6,7 @@ import CustomModal from "../../ui/modal";
 import SquadName from "./squadName";
 import TeamNumbers from "./teamNumbers";
 import SquadCharacters from "./squadCharacters";
+import SquadRules from './rules'
 
 interface ICreateSquadModalProps {
   speciesPeople: SpeciesCharacters,
@@ -53,8 +54,9 @@ const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople, edi
         >
 
         {currentStep === 1 && <SquadName squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
-        {currentStep === 2 && <TeamNumbers squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
-        {currentStep === 3 && <SquadCharacters speciesPeople={speciesPeople} squadData={squadData} updateSquadData={updateSquadData} closeSquadModal={closeSquadModal} editedSquadData={editedSquadData} />}
+        {currentStep === 2 && <SquadRules handleNextStep={handleNextStep}/>}
+        {currentStep === 3 && <TeamNumbers squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
+        {currentStep === 4 && <SquadCharacters speciesPeople={speciesPeople} squadData={squadData} updateSquadData={updateSquadData} closeSquadModal={closeSquadModal} editedSquadData={editedSquadData} />}
 
 
         </CustomModal>
