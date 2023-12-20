@@ -21,6 +21,7 @@ const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople, edi
     characters: editedSquadData?.characters ?? [],
     name: editedSquadData?.name ?? '',
     id: editedSquadData?.id ?? '',
+    species: editedSquadData?.species ?? []
   });
 
   const openSquadModal = () => {
@@ -30,15 +31,16 @@ const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople, edi
   const closeSquadModal = () => {
     setIsOpenSquadModal(false);
     setCurrentStep(1)
-    setSquadData({ teamNumber: 0, characters: [], name: '', id: '' })
   };
 
   const handleNextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
   };
 
-  const updateSquadData = (propertey: string, value: string | number | Characters) => {
-    setSquadData({ ...squadData, [propertey]: value })
+  const updateSquadData = (property: string, value: string | number | Characters | string[]) => {
+    setSquadData(prevSquadData => {
+      return { ...prevSquadData, [property]: value };
+    });
   }
 
   return (
@@ -53,10 +55,10 @@ const CreateSquadModal: React.FC<ICreateSquadModalProps> = ({ speciesPeople, edi
           className="max-w-5xl flex"
         >
 
-        {currentStep === 1 && <SquadName squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
-        {currentStep === 2 && <SquadRules handleNextStep={handleNextStep}/>}
-        {currentStep === 3 && <TeamNumbers squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
-        {currentStep === 4 && <SquadCharacters speciesPeople={speciesPeople} squadData={squadData} updateSquadData={updateSquadData} closeSquadModal={closeSquadModal} editedSquadData={editedSquadData} />}
+          {currentStep === 1 && <SquadName squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
+          {currentStep === 2 && <SquadRules handleNextStep={handleNextStep} />}
+          {currentStep === 3 && <TeamNumbers squadData={squadData} handleNextStep={handleNextStep} updateSquadData={updateSquadData} />}
+          {currentStep === 4 && <SquadCharacters speciesPeople={speciesPeople} squadData={squadData} updateSquadData={updateSquadData} closeSquadModal={closeSquadModal} editedSquadData={editedSquadData} />}
 
 
         </CustomModal>

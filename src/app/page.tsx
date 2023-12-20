@@ -1,9 +1,10 @@
+import { Suspense } from 'react';
+
 import SearchInput from './components/ui/SearchInput'
 import CharactersList from './components/characters/charactersList'
 import CreateSquadModal from './components/squads/squadModal'
 import { getSpeciesPeople } from '@/lib/api/species'
-// import { Suspense } from 'react';
-// import { SkeletonCard } from "@/app/components/ui/skeletons";
+import { SkeletonCard } from "@/app/components/ui/skeletons";
 
 export default async function Home({
   searchParams,
@@ -29,9 +30,9 @@ export default async function Home({
         </div>
       </section>
       <section>
-        {/* <Suspense key={query + currentPage} fallback={<SkeletonCard number={6}/>}> */}
+        <Suspense key={query + currentPage} fallback={<SkeletonCard number={6}/>}>
           <CharactersList query={query} currentPage={currentPage}/>
-        {/* </Suspense> */}
+        </Suspense>
       </section>
     </div>
   )
