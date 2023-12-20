@@ -12,7 +12,7 @@ import Button from "../../ui/button";
 interface ISquadCharactersProps {
   speciesPeople: SpeciesCharacters,
   squadData: Squad,
-  updateSquadData: (propertey: string, value: Characters) => void,
+  updateSquadData: (propertey: string, value: Characters | string[]) => void,
   closeSquadModal: () => void,
   editedSquadData?: Squad
 }
@@ -21,8 +21,7 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [selectedSpeice, setSelectedSpeice] = useState('Human')
-  const [squadSpecies, setSquadSpecies] = useState<Array<string>>([])
+  const [selectedSpeice, setSelectedSpeice] = useState(squadData.species.length ? squadData.species[0] : 'Human')
 
   const changeSpiecieHandler = (specietype: string) => {
     setSelectedSpeice(specietype)
@@ -33,18 +32,20 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
   }
 
   const handleSelectCharacter = (character: Character) => {
-    const userSelectedCharacters = squadData.characters
+    const { characters: userSelectedCharacters, species: selectedSpecies } = squadData
 
     const isUserSelected = isCharacterSelected(userSelectedCharacters, character.id)
     if (isUserSelected) {
       const updatedCharacters = userSelectedCharacters?.filter(selectedCharacter => selectedCharacter.id !== character.id)
-      const updatedSquadSpecies = squadSpecies.filter(specie => specie !== selectedSpeice)
-      setSquadSpecies(updatedSquadSpecies);
+      const updatedSquadSpecies = selectedSpecies.filter(specie => specie !== selectedSpeice)
       updateSquadData('characters', updatedCharacters);
+      updateSquadData('species', updatedSquadSpecies);
     } else {
       if (userSelectedCharacters.length < 6) {
-        setSquadSpecies([...squadSpecies, selectedSpeice]);
+
+        updateSquadData('species', [...selectedSpecies, selectedSpeice]);
         updateSquadData('characters', [...userSelectedCharacters, character]);
+
       }
     }
   }
@@ -65,25 +66,25 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
       <div>
         {
           speciesPeople && Object.keys(speciesPeople)?.map((specieName, index) => {
-            return <button key={index} onClick={() => changeSpiecieHandler(specieName)} className={`inline-block mx-2 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 ${specieName === selectedSpeice ? 'bg-blue-500' : 'bg-gray-500'} text-white`}>{specieName}</button>
+            return <button key={index} onClick={() => changeSpiecieHandler(specieName)} className={`inline-block mx-2 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 ${specieName === selectedSpeice ? 'bg-blue-500' : squadData.species.includes(specieName) ? 'bg-green-700' : 'bg-gray-500'} text-white`}>{specieName}</button>
           }
 
           )
         }
       </div>
       <div className="flex flex-wrap my-1 justify-center">
-        {speciesPeople[selectedSpeice].length ? speciesPeople[selectedSpeice]?.map((character) => {
+        {speciesPeople[selectedSpeice]?.length ? speciesPeople[selectedSpeice]?.map((character) => {
+          const { species: selectedSpecies } = squadData
           const userSelectedCharacters: Characters = squadData.characters
           const isSelectedCharacter = isCharacterSelected(userSelectedCharacters, character.id)
-          const isContainSelectedItems = isContainSelectedCharaters()
           return (
             <div key={character.id}>
               <CharacterCard
                 key={character.id}
                 character={character}
                 isSelected={isSelectedCharacter}
-                onSelect={(userSelectedCharacters.length <= squadData.teamNumber || (editedSquadData && squadData.characters.length > squadData.teamNumber)) ? handleSelectCharacter : () => { }}
-                isDisabled={((userSelectedCharacters.length > squadData.teamNumber - 1 || squadSpecies.includes(selectedSpeice)) && !isSelectedCharacter) || (editedSquadData && squadData.characters.length === squadData.teamNumber) || isContainSelectedItems}
+                onSelect={handleSelectCharacter}
+                isDisabled={selectedSpecies.includes(selectedSpeice) && !isSelectedCharacter}
                 className="w-48 h-80"
               />
             </div>

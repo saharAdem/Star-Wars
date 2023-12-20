@@ -8,6 +8,11 @@ interface ITeamNumbers {
 
 const TeamNumbers: React.FC<ITeamNumbers> = ({ squadData, updateSquadData, handleNextStep }) => {
   const allowableteamNumbers = [3,4,5]
+
+  const handleUpdateTeamNumber = (teamNumber: number) =>{{
+    updateSquadData('teamNumber', teamNumber)
+  }}
+
   return(
     <div>
       <div>
@@ -19,7 +24,7 @@ const TeamNumbers: React.FC<ITeamNumbers> = ({ squadData, updateSquadData, handl
             const selectedTeamNumber = squadData.teamNumber
             return (<Button
               key={number}
-              onClick={() => updateSquadData('teamNumber', number)}
+              onClick={() =>handleUpdateTeamNumber(number)}
               isSelected={selectedTeamNumber === number}
               className={`w-8 h-8 mx-4 flex items-center justify-center font-bold rounded-full cursor-pointer`}
             >
