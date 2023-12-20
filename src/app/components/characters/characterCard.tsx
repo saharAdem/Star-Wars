@@ -26,7 +26,7 @@ const CharacterCard = ({ character, isSelected, onSelect, isDisabled, className 
   )}
       onClick={handleSelect}
     >
-      <Card title={name} imageData={{ url: image, width: 250, height: 350 }}>
+      <Card title={name} imageData={{ url: image, width: 250, height: 350 }} className={`${isSelected ? '!bg-blue-300' : ''}`}>
         <div className="px-6 pb-4">
           <CharacterDescriptionItem propertey="Height" value={height} />
           <CharacterDescriptionItem propertey="mass" value={mass} />

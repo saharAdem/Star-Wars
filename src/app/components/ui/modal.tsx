@@ -29,7 +29,7 @@ const CustomModal: React.FC<IModalProps> = ({ isOpen, closeModal, children, titl
         <button className="absolute top-2 right-4 cursor-pointer text-lg" onClick={closeModal}>
           &times;
         </button>
-        <div className='h-5/6 min-h-fit overflow-y-auto no-scrollbar'>
+        <div className='h-5/6 min-h-fit overflow-y-auto no-scrollbar max-h-96'>
             {children}
         </div>
       </div>

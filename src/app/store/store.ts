@@ -2,10 +2,12 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import squadsReducer from './features/squadsSlice'
+import speciesCharacterReducer from './features/speciesCharactersSlice';
 
 export const store = configureStore({
   reducer: {
-    squads: squadsReducer
+    squads: squadsReducer,
+    speciesCharacter: speciesCharacterReducer
   }
 })
 
