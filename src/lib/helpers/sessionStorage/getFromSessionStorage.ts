@@ -5,11 +5,9 @@ export const getDataFromSessionStorage = (propertey: string): any | null => {
       if (data) {
         return JSON.parse(data);
       }
-      return null;
     }
   } catch (error) {
     console.error('Error retrieving data from session storage:', error);
     return null;
   }
-  return undefined
 }
