@@ -23,25 +23,26 @@ export const getSpecies = async (): Promise<Species> => {
 export const getSpeciesPeople = async () => {
   const species = await getSpecies()
 
-  const SpeciesWithCharacter: SpeciesCharacters = {};
+  const fetchCharacterData = async (url: string) => {
+    const response = await fetch(url, {
+      next: {
+        revalidate: 120,
+      },
+    });
+    return response.json();
+  };
 
   const fetchSpeciesData = async (specie: Specie) => {
-    const characters = await Promise.all(
-      specie.people.map(async (url) => {
-        const response = await fetch(url, {
-          next: {
-            revalidate: 120,
-          },
-        });
-        const characterData = await response.json();
-        return characterData;
-      })
-    );
-    SpeciesWithCharacter[specie.name] = characters;
+    const characters = await Promise.all(specie.people.map(fetchCharacterData));
+    return { [specie.name]: characters };
   };
-  for (const specie of species) {
-    await fetchSpeciesData(specie);
-  }
+
+  const speciesWithCharacterPromises = species.map(fetchSpeciesData);
+  const speciesWithCharacterArray = await Promise.all(speciesWithCharacterPromises);
+
+  const SpeciesWithCharacter: SpeciesCharacters = speciesWithCharacterArray.reduce((result, item) => {
+    return { ...result, ...item };
+  }, {});
 
   return SpeciesWithCharacter;
 };
