@@ -1,6 +1,10 @@
 export const getFilmTitle = async (fetchUrl: string): Promise<string> => {
   try {
-    const response = await fetch(fetchUrl);
+    const response = await fetch(fetchUrl, {
+      next: {
+        revalidate: 120,
+      },
+    });
     const film: Film = await response.json();
 
     if (!film) {

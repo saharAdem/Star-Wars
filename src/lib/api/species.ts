@@ -2,7 +2,11 @@ const speciesUrl = 'https://fe-case-study.vercel.app/api/data/species'
 
 export const getSpecies = async (): Promise<Species> => {
   try {
-    const response = await fetch(speciesUrl);
+    const response = await fetch(speciesUrl, {
+      next: {
+        revalidate: 120,
+      },
+    });
     const species: Species = await response.json();
     
     if (!species) {
@@ -24,7 +28,11 @@ export const getSpeciesPeople = async () => {
   const fetchSpeciesData = async (specie: Specie) => {
     const characters = await Promise.all(
       specie.people.map(async (url) => {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          next: {
+            revalidate: 120,
+          },
+        });
         const characterData = await response.json();
         return characterData;
       })
