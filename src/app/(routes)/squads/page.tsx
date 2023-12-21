@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 const Squads = async () => {
   const speciesPeople = await getSpeciesPeople()
 
-  return <></>
-  // <SquadsList speciesPeople={speciesPeople}/>
+  return <SquadsList speciesPeople={speciesPeople}/>
 
 }
 
