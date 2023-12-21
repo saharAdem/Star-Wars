@@ -17,8 +17,8 @@ interface ISquadCharactersProps {
 const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squadData, updateSquadData, closeSquadModal, editedSquadData }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-
-  const [selectedSpeice, setSelectedSpeice] = useState(squadData.species.length ? squadData.species[0] : 'Human')
+  const {teamNumber, species, characters} = squadData
+  const [selectedSpeice, setSelectedSpeice] = useState(species.length ? species[0] : 'Human')
 
   const changeSpiecieHandler = (specietype: string) => {
     setSelectedSpeice(specietype)
@@ -55,15 +55,17 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
   }
 
   const isContainSelectedCharaters = () => {
-    return squadData.characters.some(squadCharacter => speciesPeople[selectedSpeice].some(character => character.id === squadCharacter.id));
+    return characters.some(squadCharacter => speciesPeople[selectedSpeice].some(character => character.id === squadCharacter.id));
   }
 
   return (
     <div className="flex flex-col mb-10">
+      <p className="font-bold text-lg text-center">{characters.length} of {teamNumber}</p>
+
       <div>
         {
           speciesPeople && Object.keys(speciesPeople)?.map((specieName, index) => {
-            return <button key={index} onClick={() => changeSpiecieHandler(specieName)} className={`inline-block mx-2 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 ${specieName === selectedSpeice ? 'bg-blue-500' : squadData.species.includes(specieName) ? 'bg-green-700' : 'bg-gray-500'} text-white`}>{specieName}</button>
+            return <button key={index} onClick={() => changeSpiecieHandler(specieName)} className={`inline-block mx-2 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 ${specieName === selectedSpeice ? 'bg-blue-500' : species.includes(specieName) ? 'bg-green-700' : 'bg-gray-500'} text-white`}>{specieName}</button>
           }
 
           )
@@ -72,7 +74,7 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
       <div className="flex flex-wrap my-1 justify-center">
         {speciesPeople[selectedSpeice]?.length ? speciesPeople[selectedSpeice]?.map((character) => {
           const { species: selectedSpecies } = squadData
-          const userSelectedCharacters: Characters = squadData.characters
+          const userSelectedCharacters: Characters = characters
           const isSelectedCharacter = isCharacterSelected(userSelectedCharacters, character.id)
           return (
             <div key={character.id}>
@@ -81,7 +83,7 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
                 character={character}
                 isSelected={isSelectedCharacter}
                 onSelect={handleSelectCharacter}
-                isDisabled={selectedSpecies.includes(selectedSpeice) && !isSelectedCharacter}
+                isDisabled={((selectedSpecies.includes(selectedSpeice) || teamNumber === characters.length ) && !isSelectedCharacter) || (editedSquadData && (teamNumber === characters.length))}
                 className="w-48 h-80"
               />
             </div>
@@ -92,7 +94,7 @@ const SquadCharacters: React.FC<ISquadCharactersProps> = ({ speciesPeople, squad
       </div>
       <Button
         onClick={handleCreateSquad}
-        isDisabled={!(squadData.characters.length === squadData.teamNumber)}
+        isDisabled={!(characters.length === teamNumber)}
       >{editedSquadData ? 'Edit' : 'Create'}</Button>
     </div>
   )
